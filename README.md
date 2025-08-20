@@ -1,44 +1,79 @@
-# ML-Experiments 3 — Fraud Detection
+# 🧠 ML-Experiments 3 — Fraud Detection
 
-## Requirements
+## 📌 Overview
+Interactive fraud-detection pipeline that lets you:
+- Pick a **CSV** dataset via GUI (tested with `TestData.csv`)
+- Choose the **target column** and the positive **label**
+- Configure **preprocessing**, optional **sampling** (class_weight / SMOTE / undersampling), and select multiple **models**
+- Generate metrics, plots, and a tidy results folder for your README
 
-- Python **3.12** (tested)
-- Packages (see `requirements.txt`):
+> **Metric focus:** `pr_auc`.  Best model: **rf** (pr_auc=1.0000)
 
+---
+
+## ⚙️ Environment & Requirements
+
+- **Python version**: `3.12.x`
+- Install dependencies:
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+### `requirements.txt` includes:
 ```txt
-pandas>=2.0
-numpy>=1.23
-scikit-learn>=1.2
-matplotlib>=3.7
-imbalanced-learn>=0.12  # optional for SMOTE/undersampling
+pandas==2.2.3
+numpy==1.26.4
+matplotlib==3.9.0
+scikit-learn==1.6.1
+imbalanced-learn==0.13.0  # optional for SMOTE/undersampling
 ```
+---
 
+## 🧠 Classification Models
+- **Logistic Regression** (`logreg`)
+- **Random Forest** (`rf`)
+- **K-Nearest Neighbors** (`knn`)
+- **Decision Tree** (`dt`)
+- **Gradient Boosting** (`gb`)
+> ❌ SVC is available but excluded from the **Select All** option due to runtime.
 
-**Goal:** Binary fraud detection with modular preprocessing, optional sampling, and multiple classifiers.  
-**Dataset:** `TestData.csv` • Target: `fraud` with positive label `1.0` • Positive rate ≈ 8.71% (sample)
+---
 
-## Setup
-- Metric focus: **pr_auc**
-- Split: test_size = **0.2**, random_state = **42**
-- Preprocessing: numeric→ median impute (+ missingness indicator), scaler = **True**; categorical→ most_frequent impute + OneHotEncoder(ignore unknown)
-- Imbalance handling: **class_weight**
-- Models trained: LogisticRegression, RandomForest, GradientBoosting, KNN, DecisionTree
+## 🔁 Sampling Options
+- `class_weight` (default) — no resampling, use built-in class weighting
+- `SMOTE` — synthetic oversampling (requires `imbalanced-learn`)
+- `RandomUnder` — random undersampling
+- `None` — train as-is
 
-## Results
-**Best model:** **rf** by **pr_auc = 1.0000**
+> The app estimates imbalance and recommends PR-AUC where appropriate.
 
-### Per-model summary
+---
+
+## 🧪 Run Configuration (example)
+- Test size: `0.2`
+- Random state: `42`
+- Scaler: `True`
+- Sampler used: `class_weight`
+- Positive rate (sample): **8.71% (sample)**
+
+---
+
+## 📊 Performance Summary
 (from `summary.tsv`)
+
 | model | accuracy | precision | recall | f1 | pr_auc | roc_auc |
 |---|---:|---:|---:|---:|---:|---:|
-| logreg | 0.9348 | 0.5773 | 0.9479 | 0.7176 | 0.7574 | 0.9795 |
 | rf | 1.0000 | 1.0000 | 0.9997 | 0.9999 | 1.0000 | 1.0000 |
 | gb | 0.9996 | 0.9997 | 0.9954 | 0.9975 | 1.0000 | 1.0000 |
-| knn | 0.9987 | 0.9957 | 0.9895 | 0.9926 | 0.9995 | 0.9998 |
 | dt | 1.0000 | 0.9999 | 0.9999 | 0.9999 | 0.9998 | 0.9999 |
+| knn | 0.9987 | 0.9957 | 0.9895 | 0.9926 | 0.9995 | 0.9998 |
+| logreg | 0.9348 | 0.5773 | 0.9479 | 0.7176 | 0.7574 | 0.9795 |
 
-### Timings
+---
+
+## ⏱️ Timings
 (from `timings.json`)
+
 | model | fit_seconds | predict_seconds |
 |---|---:|---:|
 | logreg | 0.5960 | 0.0030 |
@@ -47,26 +82,47 @@ imbalanced-learn>=0.12  # optional for SMOTE/undersampling
 | knn | 2.7440 | 46.3770 |
 | dt | 2.5970 | 0.0120 |
 
-### Per-model confusion matrices
-**Decisiontree**
+---
 
-![](/assets/decisiontree_cm.png)
+## 🖼️ Visual Results
 
-**Gradientboosting**
+### Combined
+![PR curve](assets/combined_pr.png)  
+![ROC curve](assets/combined_roc.png)
 
-![](/assets/gradientboosting_cm.png)
+### Confusion Matrices by Model
+**DecisionTree**
 
-**Knn**
+![DecisionTree CM](assets/decisiontree_cm.png)
 
-![](/assets/knn_cm.png)
+**GradientBoosting**
 
-**Logisticregression**
+![GradientBoosting CM](assets/gradientboosting_cm.png)
 
-![](/assets/logisticregression_cm.png)
+**KNN**
 
-**Randomforest**
+![KNN CM](assets/knn_cm.png)
 
-![](/assets/randomforest_cm.png)
+**LogisticRegression**
 
-## Repro / Config
-See `config.json` in the session folder for exact options used.
+![LogisticRegression CM](assets/logisticregression_cm.png)
+
+**RandomForest**
+
+![RandomForest CM](assets/randomforest_cm.png)
+
+---
+
+## 🚀 How to Run
+```bash
+python Main.py
+```
+Then:
+1. **Select dataset** (`.csv`) — e.g., `TestData.csv`  
+2. Pick **target column** + **positive label**  
+3. Choose **models**, **sampler**, and options  
+4. Review the **summary**, start training, and collect results in `results/session_.../`
+
+---
+
+Created by: **Mesut Erkin Özokutgen**
