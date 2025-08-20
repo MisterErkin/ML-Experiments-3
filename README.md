@@ -36,23 +36,23 @@
 ### Per-model confusion matrices
 **Decisiontree**
 
-![](/mnt/data/assets/decisiontree_cm.png)
+![](/assets/decisiontree_cm.png)
 
 **Gradientboosting**
 
-![](/mnt/data/assets/gradientboosting_cm.png)
+![](/assets/gradientboosting_cm.png)
 
 **Knn**
 
-![](/mnt/data/assets/knn_cm.png)
+![](/assets/knn_cm.png)
 
 **Logisticregression**
 
-![](/mnt/data/assets/logisticregression_cm.png)
+![](/assets/logisticregression_cm.png)
 
 **Randomforest**
 
-![](/mnt/data/assets/randomforest_cm.png)
+![](/assets/randomforest_cm.png)
 
 ## Repro / Config
 See `config.json` in the session folder for exact options used.
