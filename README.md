@@ -1,115 +1,168 @@
-# 🧠 ML-Experiments 3 — Fraud Detection
+# 🧠 ML Pipeline on UCI Adult Income Dataset
+
+**ML-Experiments-3** targets bank-transaction fraud detection with an emphasis on class imbalance and clear, repeatable evaluation. Point it at a CSV (tested with `TestData.csv`), define the positive class, and compare baseline models with consistent preprocessing.
+
+What you get:
+- Consistent preprocessing (impute numerics/categoricals, one-hot encode, optionally scale)
+- Optional imbalance handling (`class_weight`, `SMOTE`, or undersampling)
+- Multiple models trained on the same split for fair comparison
+- Precision/Recall, PR-AUC, ROC-AUC, and confusion matrices
+- A tidy results folder ready for documentation (`summary.tsv`, plots, timings, config)
+
+**About `TestData.csv`:**  
+This sample file contains anonymized transaction records with a mix of numeric and categorical fields (e.g., amounts, timestamps or time-like indices, and ID/category-style columns), plus a binary target indicating whether a transaction is fraudulent. You can swap in any similarly structured dataset by selecting it in the app.
+
+> **Note:** Metrics and rankings will vary across datasets depending on class balance, feature quality, and labeling. Prefer PR-AUC and inspect Precision/Recall to choose an operating threshold that fits your use case.
 
 ## 📌 Overview
-Interactive fraud-detection pipeline that lets you:
-- Pick a **CSV** dataset via GUI (tested with `TestData.csv`)
-- Choose the **target column** and the positive **label**
-- Configure **preprocessing**, optional **sampling** (class_weight / SMOTE / undersampling), and select multiple **models**
-- Generate metrics, plots, and a tidy results folder for your README
+This project explores the impact of various sampling techniques on classification models trained on the **UCI Adult Income dataset**. The primary goal is to predict whether a person earns more than $50K/year and evaluate how imbalanced data treatments affect performance.
 
-> **Metric focus:** `pr_auc`.  Best model: **rf** (pr_auc=1.0000)
+Key features:
+- Support for 4 classification models
+- Optional LDA dimensionality reduction
+- Visualization of distributions, confusion matrices, and result summaries
 
 ---
 
 ## ⚙️ Environment & Requirements
 
-- **Python version**: `3.12.x`
+- **Python version**: `3.12.3`
 - Install dependencies:
   ```bash
   pip install -r requirements.txt
   ```
 
 ### `requirements.txt` includes:
-```txt
+```
 pandas==2.2.3
 numpy==1.26.4
 matplotlib==3.9.0
+seaborn==0.13.2
 scikit-learn==1.6.1
-imbalanced-learn==0.13.0  # optional for SMOTE/undersampling
+imbalanced-learn==0.13.0
 ```
 ---
 
 ## 🧠 Classification Models
 - **Logistic Regression** (`logreg`)
-- **Random Forest** (`rf`)
+- **Random Forest** (`random_forest`)
 - **K-Nearest Neighbors** (`knn`)
-- **Decision Tree** (`dt`)
-- **Gradient Boosting** (`gb`)
-> ❌ SVC is available but excluded from the **Select All** option due to runtime.
+- **Gradient Boosting** (`gradient_boost`)
+
+> ❌ Support Vector Machine (`svm`) was excluded due to high computation time.
 
 ---
 
-## 🔁 Sampling Options
-- `class_weight` (default) — no resampling, use built-in class weighting
-- `SMOTE` — synthetic oversampling (requires `imbalanced-learn`)
-- `RandomUnder` — random undersampling
-- `None` — train as-is
+## 🔁 Sampling Techniques
+To address data imbalance:
+- Random Oversampling
+- SMOTE (Synthetic Minority Over-sampling Technique)
+- Random Undersampling
+- Tomek Links
 
-> The app estimates imbalance and recommends PR-AUC where appropriate.
+Each model is trained with all sampling methods and optionally with **LDA**-reduced features.
 
 ---
 
-## 🧪 Run Configuration (example)
-- Test size: `0.2`
-- Random state: `42`
-- Scaler: `True`
-- Sampler used: `class_weight`
-- Positive rate (sample): **8.71% (sample)**
+## 🧪 Test Configuration
+- `test_size = 0.3`
+- `random_state = 66`
+- `scaler = MinMaxScaler`
+- `apply_lda = True`
 
 ---
 
 ## 📊 Performance Summary
-(from `summary.tsv`)
 
-| model | accuracy | precision | recall | f1 | pr_auc | roc_auc |
-|---|---:|---:|---:|---:|---:|---:|
-| rf | 1.0000 | 1.0000 | 0.9997 | 0.9999 | 1.0000 | 1.0000 |
-| gb | 0.9996 | 0.9997 | 0.9954 | 0.9975 | 1.0000 | 1.0000 |
-| dt | 1.0000 | 0.9999 | 0.9999 | 0.9999 | 0.9998 | 0.9999 |
-| knn | 0.9987 | 0.9957 | 0.9895 | 0.9926 | 0.9995 | 0.9998 |
-| logreg | 0.9348 | 0.5773 | 0.9479 | 0.7176 | 0.7574 | 0.9795 |
+### Logistic Regression
+| Method               | Acc    | Prec   | Recall | F1     | ROC-AUC |
+|----------------------|--------|--------|--------|--------|---------|
+| Baseline             | 0.8543 | 0.7418 | 0.6059 | 0.6670 | 0.9055  |
+| Random Oversampling  | 0.8071 | 0.5661 | 0.8525 | 0.6804 | 0.9058  |
+| SMOTE                | 0.8108 | 0.5748 | 0.8236 | 0.6770 | 0.9009  |
+| Random Undersampling | 0.8021 | 0.5582 | 0.8537 | 0.6751 | 0.9044  |
+| Tomek Links          | 0.8503 | 0.6983 | 0.6662 | 0.6819 | 0.9046  |
+| LDA                  | 0.8405 | 0.7153 | 0.5608 | 0.6287 | 0.8925  |
+
+### Random Forest
+| Method               | Acc    | Prec   | Recall | F1     | ROC-AUC |
+|----------------------|--------|--------|--------|--------|---------|
+| Baseline             | 0.8547 | 0.7341 | 0.6220 | 0.6734 | 0.9037  |
+| Random Oversampling  | 0.8446 | 0.6758 | 0.6815 | 0.6787 | 0.8999  |
+| SMOTE                | 0.8357 | 0.6439 | 0.7105 | 0.6756 | 0.8947  |
+| Random Undersampling | 0.8079 | 0.5688 | 0.8350 | 0.6767 | 0.9027  |
+| Tomek Links          | 0.8522 | 0.6949 | 0.6884 | 0.6916 | 0.9032  |
+| LDA                  | 0.7762 | 0.5346 | 0.5455 | 0.5400 | 0.8163  |
+
+### K-Nearest Neighbors (KNN)
+| Method               | Acc    | Prec   | Recall | F1     | ROC-AUC |
+|----------------------|--------|--------|--------|--------|---------|
+| Baseline             | 0.8246 | 0.6524 | 0.5816 | 0.6150 | 0.8434  |
+| Random Oversampling  | 0.7700 | 0.5148 | 0.7751 | 0.6187 | 0.8316  |
+| SMOTE                | 0.7892 | 0.5456 | 0.7457 | 0.6301 | 0.8377  |
+| Random Undersampling | 0.7679 | 0.5114 | 0.8121 | 0.6276 | 0.8528  |
+| Tomek Links          | 0.8201 | 0.6192 | 0.6569 | 0.6375 | 0.8453  |
+| LDA                  | 0.8171 | 0.6373 | 0.5574 | 0.5947 | 0.8333  |
+
+### Gradient Boosting
+| Method               | Acc    | Prec   | Recall | F1     | ROC-AUC |
+|----------------------|--------|--------|--------|--------|---------|
+| Baseline             | 0.8683 | 0.7934 | 0.6122 | 0.6911 | 0.9208  |
+| Random Oversampling  | 0.8221 | 0.5893 | 0.8614 | 0.6998 | 0.9209  |
+| SMOTE                | 0.8243 | 0.5986 | 0.8206 | 0.6923 | 0.9132  |
+| Random Undersampling | 0.8179 | 0.5824 | 0.8614 | 0.6949 | 0.9203  |
+| Tomek Links          | 0.8678 | 0.7520 | 0.6730 | 0.7103 | 0.9204  |
+| LDA                  | 0.8384 | 0.7160 | 0.5446 | 0.6187 | 0.8890  |
 
 ---
 
-## ⏱️ Timings
-(from `timings.json`)
+## 🖼️ Visual Results (Confusion Matrices)
+Visual results are stored in the `results/` folder and include all 26 image outputs:
+- Distribution plots
+- Confusion matrices per model and method
+- LDA-reduced model comparisons
 
-| model | fit_seconds | predict_seconds |
-|---|---:|---:|
-| logreg | 0.5960 | 0.0030 |
-| rf | 32.5240 | 0.3430 |
-| gb | 200.5700 | 0.2490 |
-| knn | 2.7440 | 46.3770 |
-| dt | 2.5970 | 0.0120 |
+### Distribution:
+- ![Distribution](results/Distribution_of_Numerical_Features.png)
+- ![Income Class](results/Income_Class_Distribution.png)
 
----
+### Baseline Confusion Matrices:
+- ![Logreg](results/Confusion_Matrix_-_logreg.png)
+- ![Random Forest](results/Confusion_Matrix_-_random_forest.png)
+- ![KNN](results/Confusion_Matrix_-_knn.png)
+- ![Gradient Boost](results/Confusion_Matrix_-_gradient_boost.png)
 
-## 🖼️ Visual Results
+### Sampling + Model Confusion Matrices:
 
-### Combined
-![PR curve](assets/pr_curve.png)  
-![ROC curve](assets/roc_curve.png)
+#### Logistic Regression
+- ![RO logreg](results/Confusion_Matrix_-_Random_Oversampling_logreg.png)
+- ![SMOTE logreg](results/Confusion_Matrix_-_SMOTE_logreg.png)
+- ![RU logreg](results/Confusion_Matrix_-_Random_Undersampling_logreg.png)
+- ![Tomek logreg](results/Confusion_Matrix_-_Tomek_Links_logreg.png)
 
-### Confusion Matrices by Model
-**DecisionTree**
+#### Random Forest
+- ![RO RF](results/Confusion_Matrix_-_Random_Oversampling_random_forest.png)
+- ![SMOTE RF](results/Confusion_Matrix_-_SMOTE_random_forest.png)
+- ![RU RF](results/Confusion_Matrix_-_Random_Undersampling_random_forest.png)
+- ![Tomek RF](results/Confusion_Matrix_-_Tomek_Links_random_forest.png)
 
-![DecisionTree CM](assets/decisiontree_cm.png)
+#### KNN
+- ![RO KNN](results/Confusion_Matrix_-_Random_Oversampling_knn.png)
+- ![SMOTE KNN](results/Confusion_Matrix_-_SMOTE_knn.png)
+- ![RU KNN](results/Confusion_Matrix_-_Random_Undersampling_knn.png)
+- ![Tomek KNN](results/Confusion_Matrix_-_Tomek_Links_knn.png)
 
-**GradientBoosting**
+#### Gradient Boost
+- ![RO GB](results/Confusion_Matrix_-_Random_Oversampling_gradient_boost.png)
+- ![SMOTE GB](results/Confusion_Matrix_-_SMOTE_gradient_boost.png)
+- ![RU GB](results/Confusion_Matrix_-_Random_Undersampling_gradient_boost.png)
+- ![Tomek GB](results/Confusion_Matrix_-_Tomek_Links_gradient_boost.png)
 
-![GradientBoosting CM](assets/gradientboosting_cm.png)
-
-**KNN**
-
-![KNN CM](assets/knn_cm.png)
-
-**LogisticRegression**
-
-![LogisticRegression CM](assets/logisticregression_cm.png)
-
-**RandomForest**
-
-![RandomForest CM](assets/randomforest_cm.png)
+### LDA Confusion Matrices:
+- ![LDA logreg](results/Confusion_Matrix_-_LDA_logreg.png)
+- ![LDA RF](results/Confusion_Matrix_-_LDA_random_forest.png)
+- ![LDA KNN](results/Confusion_Matrix_-_LDA_knn.png)
+- ![LDA GB](results/Confusion_Matrix_-_LDA_gradient_boost.png)
 
 ---
 
@@ -117,11 +170,14 @@ imbalanced-learn==0.13.0  # optional for SMOTE/undersampling
 ```bash
 python Main.py
 ```
-Then:
-1. **Select dataset** (`.csv`) — e.g., `TestData.csv`  
-2. Pick **target column** + **positive label**  
-3. Choose **models**, **sampler**, and options  
-4. Review the **summary**, start training, and collect results in `results/session_.../`
+You'll be prompted for:
+- Test size (e.g., `0.3`)
+- Random state (e.g., `66`)
+- Model (`logreg`, `knn`, `random_forest`, `gradient_boost`, or `all`)
+- Sampling (`smote`, `undersample`, `tomek`, `random`, or `all`)
+- Whether to apply LDA (`True` or `False`)
+
+All outputs will be saved to the `results/` folder.
 
 ---
 
