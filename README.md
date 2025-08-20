@@ -87,8 +87,8 @@ imbalanced-learn==0.13.0  # optional for SMOTE/undersampling
 ## 🖼️ Visual Results
 
 ### Combined
-![PR curve](assets/combined_pr.png)  
-![ROC curve](assets/combined_roc.png)
+![PR curve](assets/pr_curve.png)  
+![ROC curve](assets/roc_curve.png)
 
 ### Confusion Matrices by Model
 **DecisionTree**
