@@ -1,0 +1,22 @@
+{
+  "dataset_path": "C:/Users/M_Erk/OneDrive/Masaüstü/Denemeler/ML-Experiments-3/card_transdata.csv",
+  "target": "fraud",
+  "positive_label": 1.0,
+  "options": {
+    "models": [
+      "LogisticRegression",
+      "RandomForest",
+      "GradientBoosting",
+      "KNN",
+      "DecisionTree"
+    ],
+    "sampler": "class_weight",
+    "scale": true,
+    "metric": "pr_auc",
+    "test_size": 0.2,
+    "random_state": 42,
+    "size_mode": "full",
+    "sample_rows": 200000
+  },
+  "sampler_used": "class_weight"
+}

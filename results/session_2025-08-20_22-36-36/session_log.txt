@@ -1,0 +1,6 @@
+Dataset path: C:/Users/M_Erk/OneDrive/Masaüstü/Denemeler/ML-Experiments-3/card_transdata.csv
+Target: fraud | Positive label: 1.0
+Python: 3.12.3
+Platform: Windows-11-10.0.26100-SP0
+Pandas: 2.2.3 | Numpy: 1.26.4 | Scikit-learn: 1.6.1
+Imbalanced-learn: 0.13.0

@@ -1,0 +1,22 @@
+{
+  "logreg": {
+    "fit_seconds": 0.596,
+    "predict_seconds": 0.003
+  },
+  "rf": {
+    "fit_seconds": 32.524,
+    "predict_seconds": 0.343
+  },
+  "gb": {
+    "fit_seconds": 200.57,
+    "predict_seconds": 0.249
+  },
+  "knn": {
+    "fit_seconds": 2.744,
+    "predict_seconds": 46.377
+  },
+  "dt": {
+    "fit_seconds": 2.597,
+    "predict_seconds": 0.012
+  }
+}

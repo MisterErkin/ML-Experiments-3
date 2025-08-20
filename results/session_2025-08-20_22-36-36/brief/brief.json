@@ -1,0 +1,27 @@
+{
+  "summary": {
+    "n_rows": 100000,
+    "n_cols": 8,
+    "memory_mb": 6.1,
+    "n_numeric": 8,
+    "n_categorical": 0,
+    "missing_top10": {
+      "distance_from_home": 0.0,
+      "distance_from_last_transaction": 0.0,
+      "ratio_to_median_purchase_price": 0.0,
+      "repeat_retailer": 0.0,
+      "used_chip": 0.0,
+      "used_pin_number": 0.0,
+      "online_order": 0.0,
+      "fraud": 0.0
+    },
+    "target_counts_sample": {
+      "0.0": 91290,
+      "1.0": 8710
+    }
+  },
+  "recommendations": [
+    "Strong imbalance: prefer PR-AUC, tune for recall; start with class_weight or SMOTE.",
+    "Suggested models: LogisticRegression, RandomForest, GradientBoosting."
+  ]
+}

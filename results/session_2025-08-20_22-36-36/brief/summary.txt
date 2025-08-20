@@ -1,0 +1,5 @@
+Summary (sample): rows=100000, cols=8
+Target counts (sample): {0.0: 91290, 1.0: 8710}
+Recommendations:
+- Strong imbalance: prefer PR-AUC, tune for recall; start with class_weight or SMOTE.
+- Suggested models: LogisticRegression, RandomForest, GradientBoosting.
