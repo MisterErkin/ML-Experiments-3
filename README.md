@@ -1,7 +1,21 @@
 # ML-Experiments 3 — Fraud Detection
 
+## Requirements
+
+- Python **3.12** (tested)
+- Packages (see `requirements.txt`):
+
+```txt
+pandas>=2.0
+numpy>=1.23
+scikit-learn>=1.2
+matplotlib>=3.7
+imbalanced-learn>=0.12  # optional for SMOTE/undersampling
+```
+
+
 **Goal:** Binary fraud detection with modular preprocessing, optional sampling, and multiple classifiers.  
-**Dataset:** `card_transdata.csv` • Target: `fraud` with positive label `1.0` • Positive rate ≈ 8.71% (sample)
+**Dataset:** `TestData.csv` • Target: `fraud` with positive label `1.0` • Positive rate ≈ 8.71% (sample)
 
 ## Setup
 - Metric focus: **pr_auc**

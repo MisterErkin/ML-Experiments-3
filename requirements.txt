@@ -1,0 +1,6 @@
+# Python: 3.12 (tested)
+pandas>=2.0
+numpy>=1.23
+scikit-learn>=1.2
+matplotlib>=3.7
+imbalanced-learn>=0.12  # optional, needed for SMOTE/undersampling
